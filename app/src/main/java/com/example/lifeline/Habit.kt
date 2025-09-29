@@ -19,6 +19,8 @@ import androidx.core.view.isEmpty
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import androidx.core.content.edit
+import com.google.android.material.bottomsheet.BottomSheetDialog
+
 
 class Habit : Fragment() {
 
@@ -28,7 +30,6 @@ class Habit : Fragment() {
 
     private val gson = Gson()
     private val prefs by lazy { requireContext().getSharedPreferences("habits_prefs", Context.MODE_PRIVATE) }
-
     private var habits: MutableList<HabitItem> = mutableListOf()
 
     override fun onCreateView(
@@ -80,11 +81,8 @@ class Habit : Fragment() {
         val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
         val btnSave = dialogView.findViewById<Button>(R.id.btnSave)
 
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .create()
-
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+        dialog.setContentView(dialogView)
 
         btnCancel.setOnClickListener { dialog.dismiss() }
 

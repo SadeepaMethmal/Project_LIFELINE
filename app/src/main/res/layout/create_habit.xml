@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/all_rounded_box"
+    android:layout_height="500dp"
+    android:background="@drawable/rounded_box"
+    android:backgroundTint="@color/white"
     android:padding="20dp"
-    android:layout_margin="30dp">
+    tools:ignore="TextSizeCheck">
 
 
     <pl.droidsonroids.gif.GifImageButton
@@ -30,8 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Create Your Own Habit"
-        android:textStyle="bold"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/gif2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -63,6 +63,7 @@
             android:id="@+id/textInputLayoutHabit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:ignore="TextContrastCheck"
             tools:layout_editor_absoluteX="25dp"
             tools:layout_editor_absoluteY="2dp" />
 
@@ -92,6 +93,7 @@
             android:id="@+id/textInputLayoutHabitDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:ignore="TextContrastCheck"
             tools:layout_editor_absoluteX="25dp"
             tools:layout_editor_absoluteY="2dp" />
 
@@ -109,7 +111,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnSave"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutHabitDescription"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,TextContrastCheck,TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/btnSave"
@@ -121,9 +123,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutHabitDescription"
-        tools:ignore="HardcodedText" />
-
-
+        tools:ignore="HardcodedText,TextContrastCheck,TouchTargetSizeCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
