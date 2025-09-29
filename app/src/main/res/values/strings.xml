@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">LIFELINE</string>
+    <string name="app_title">Your daily guide to a healthier, happier you.</string>
+    <string name="onboarding1_title">Build Healthy Habits, One Day \nat a Time</string>
+    <string name="onboarding1_subtitle">Track medication, exercise, sleep, and \ndaily routines to create lasting positive changes</string>
+    <string name="onboarding2_title">Understand Your Emotional Well-being</string>
+    <string name="onboarding2_subtitle">Log moods with simple emojis, identify patterns, and gain mental health insights</string>
+    <string name="onboarding3_title">Stay Perfectly Hydrated</string>
+    <string name="onboarding3_subtitle">Smart water reminders and tracking for optimal health and energy levels</string>
+    <string name="login">Login</string>
+    <string name="create_acc">Create account</string>
+    <string name="sub_slogan">Your Health, Your Lifeline.</string>
+    <string name="name">Name</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="confirm_pwd">Confirm password</string>
+    <string name="api_login">Or login using,</string>
+    <string name="already_have_acc">Already have an account,</string>
+    <string name="signup">Sign Up</string>
+    <string name="habit_title">Task &amp; Habit for fitness</string>
+    <string name="progress_title_description">Current task completion</string>
+
+    <string name="select_mood">How are \nyou feeling \ntoday</string>
+    <string name="mood_form_title">Why do you feel this way?</string>
+    <string name="mood_form_label">Describe the reason</string>
+    <string name="mood_history">Mood history for past few days</string>
+    <string name="calendar">Your past moods \nwill appear \nhere</string>
+
+</resources>
