@@ -21,7 +21,7 @@ class Page1 : AppCompatActivity() {
             insets
         }
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, Navbar::class.java) // Next activity
+            val intent = Intent(this, Page2::class.java) // Next activity
             startActivity(intent)
             finish() // Close splash so user can’t go back
         }, 1000)

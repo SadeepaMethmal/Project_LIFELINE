@@ -2,6 +2,7 @@
 agp = "8.12.3"
 androidGifDrawable = "1.2.29"
 circularprogressbar = "3.1.0"
+coreKtxVersion = "1.12.0"
 gson = "2.13.2"
 gsonVersion = "2.10.1"
 kotlin = "2.0.21"
@@ -20,6 +21,7 @@ gridlayout = "1.1.0"
 [libraries]
 android-gif-drawable = { module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "androidGifDrawable" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-ktx-v1120 = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 circularprogressbar = { module = "com.mikhaellopez:circularprogressbar", version.ref = "circularprogressbar" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 gson-v2101 = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }

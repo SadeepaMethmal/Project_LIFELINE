@@ -43,7 +43,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline16"
-        app:srcCompat="@drawable/logo1"
+        app:srcCompat="@drawable/logo_lifeline"
         tools:layout_editor_absoluteY="60dp" />
 
 

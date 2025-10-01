@@ -15,9 +15,11 @@
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toTopOf="@id/guideline3"
-        app:srcCompat="@drawable/logo1" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/logo_lifeline" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -44,17 +46,15 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="292dp"
         android:text="@string/app_title"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toTopOf="@id/guideline3" />
+        tools:layout_editor_absoluteY="532dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"

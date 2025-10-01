@@ -31,9 +31,11 @@ class Navbar : AppCompatActivity() {
         }
 
         // Floating Action Button click listener
-        binding.music.setOnClickListener {
-            val intent = Intent(this, Music::class.java)
-            startActivity(intent)
+        binding.drop.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, Hydration())
+                .addToBackStack(null)
+                .commit()
         }
     }
 

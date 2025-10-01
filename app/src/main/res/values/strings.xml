@@ -25,5 +25,7 @@
     <string name="mood_form_label">Describe the reason</string>
     <string name="mood_history">Mood history for past few days</string>
     <string name="calendar">Your past moods \nwill appear \nhere</string>
+    <string name="hydration_title">Hydration Reminder</string>
+    <string name="hydration">Always Remember To Stay Hydrated</string>
 
 </resources>

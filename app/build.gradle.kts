@@ -58,5 +58,6 @@ dependencies {
     implementation(libs.circularprogressbar) //dependency for custom progress bar
     implementation(libs.gson.v2101) //for shared preferences
     implementation(libs.material.calendarview) //for calendar view
+    implementation(libs.androidx.core.ktx.v1120) //for notifications
 
 }
