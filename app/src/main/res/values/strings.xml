@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">LIFELINE</string>
-    <string name="app_title">Your daily guide to a healthier, happier you.</string>
+    <string name="app_title">Your daily guide to a \nhealthier,happier you.</string>
     <string name="onboarding1_title">Build Healthy Habits, One Day \nat a Time</string>
     <string name="onboarding1_subtitle">Track medication, exercise, sleep, and \ndaily routines to create lasting positive changes</string>
     <string name="onboarding2_title">Understand Your Emotional Well-being</string>
@@ -27,5 +27,10 @@
     <string name="calendar">Your past moods \nwill appear \nhere</string>
     <string name="hydration_title">Hydration Reminder</string>
     <string name="hydration">Always Remember To Stay Hydrated</string>
+
+    <string name="login_title">Go ahead and set up your account</string>
+    <string name="login_subtitle">Sign-up to enjoy the best user experience</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

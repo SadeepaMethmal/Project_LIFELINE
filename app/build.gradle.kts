@@ -59,5 +59,9 @@ dependencies {
     implementation(libs.gson.v2101) //for shared preferences
     implementation(libs.material.calendarview) //for calendar view
     implementation(libs.androidx.core.ktx.v1120) //for notifications
+    implementation(libs.androidx.core.splashscreen) //for animated logo
+    implementation(libs.androidx.lifecycle.viewmodel.ktx) //for viewModels
+    implementation(libs.android.spinkit) //spin kit progress bar
+
 
 }

@@ -19,11 +19,8 @@
             android:windowSoftInputMode="adjustPan"
             android:exported="true" />
         <activity
-            android:name=".Page6"
-            android:exported="false" />
-        <activity
             android:name=".Page5"
-            android:exported="false" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Page4"
             android:exported="false" />
@@ -32,10 +29,11 @@
             android:exported="false" />
         <activity
             android:name=".Page2"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Page1"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

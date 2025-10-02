@@ -19,7 +19,7 @@ class Page4 : AppCompatActivity() {
         val btnSkip2: Button = findViewById(R.id.button6)
 
         btnNext2.setOnClickListener {
-            val intent = Intent(this, Page6::class.java)
+            val intent = Intent(this, Page5::class.java)
             val options = ActivityOptions.makeCustomAnimation(
                 this,
                 R.anim.slide_in_right,
