@@ -37,7 +37,7 @@ object MoodStorage {
                 put("emojiResId", e.emojiResId)
                 put("name", e.name)
                 put("description", e.description)
-                put("timeStamp", e.timeStamp) // 👈 keep same key as load()
+                put("timeStamp", e.timeStamp) // keep same key as load()
             }
             arr.put(o)
         }

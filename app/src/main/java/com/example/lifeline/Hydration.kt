@@ -1,6 +1,7 @@
 package com.example.lifeline
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.TimePickerDialog
@@ -30,6 +31,7 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
         ActivityResultContracts.RequestPermission()
     ) { }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

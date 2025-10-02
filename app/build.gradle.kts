@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.lifeline"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -62,6 +62,8 @@ dependencies {
     implementation(libs.androidx.core.splashscreen) //for animated logo
     implementation(libs.androidx.lifecycle.viewmodel.ktx) //for viewModels
     implementation(libs.android.spinkit) //spin kit progress bar
+    implementation(libs.mpandroidchart)  //for pie chart
+    implementation(libs.mpandroidchart) //for customizable charts
 
 
 }

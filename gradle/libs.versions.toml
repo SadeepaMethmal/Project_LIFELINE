@@ -21,6 +21,8 @@ constraintlayout = "2.2.1"
 materialCalendarview = "1.4.3"
 materialVersion = "1.9.0"
 gridlayout = "1.1.0"
+mpandroidchart = "v3.1.0"
+ycharts = "2.1.0"
 
 [libraries]
 android-gif-drawable = { module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "androidGifDrawable" }
@@ -43,6 +45,8 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 material-calendarview = { module = "com.prolificinteractive:material-calendarview", version.ref = "materialCalendarview" }
 material-v190 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 androidx-gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
+mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
+ycharts = { module = "co.yml:ycharts", version.ref = "ycharts" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

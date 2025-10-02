@@ -164,11 +164,20 @@ class Habit : Fragment() {
     private fun updateProgressBar() {
         if (habits.isEmpty()) {
             progressBar.setProgressWithAnimation(0f, 1000)
+            prefs.edit {
+                putString("task_completion", "0/0")   //ensure SharedPreferences is updated
+            }
             return
         }
         val completed = habits.count { it.isCompleted }
         val progressPercent = (completed.toFloat() / habits.size.toFloat()) * 100f
         progressBar.setProgressWithAnimation(progressPercent, 1000)
+
+
+        // Save "completed/total" as a string\
+        prefs.edit {
+            putString("task_completion", "$completed/${habits.size}")
+        }
     }
 
     // Save habits to SharedPreferences
@@ -188,6 +197,9 @@ class Habit : Fragment() {
     // Reset all habits
     private fun resetHabits() {
         habits.clear()
+        prefs.edit {
+            putString("task_completion", "0/0")   //ensure SharedPreferences is updated
+        }
         binding.habitContainer.removeAllViews()
         binding.emptyStateLayout.visibility = View.VISIBLE
         progressBar.setProgressWithAnimation(0f, 1000)
