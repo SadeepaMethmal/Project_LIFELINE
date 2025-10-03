@@ -23,7 +23,7 @@
         app:layout_constraintTop_toBottomOf="@+id/gif1"
         tools:ignore="HardcodedText" />
 
-    <pl.droidsonroids.gif.GifImageButton
+    <ImageView
         android:id="@+id/gif1"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btnYes"

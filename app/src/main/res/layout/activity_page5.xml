@@ -51,10 +51,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/containerBox"
             android:layout_width="match_parent"
-            android:layout_height="635dp"
-            android:layout_marginTop="79dp"
+            android:layout_height="800dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/rounded_box"
             android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView37">
@@ -85,12 +86,12 @@
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
-                android:layout_width="407dp"
-                android:layout_height="554dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+                app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

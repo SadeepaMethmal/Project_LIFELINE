@@ -62,7 +62,7 @@
         tools:ignore="HardcodedText" />
 
     <TextView
-        android:id="@+id/textView29"
+        android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/alata"
@@ -100,7 +100,7 @@
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView29"
+        app:layout_constraintTop_toBottomOf="@+id/email"
         tools:ignore="HardcodedText" />
 
     <TextView

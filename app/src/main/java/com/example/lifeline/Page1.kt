@@ -41,7 +41,7 @@ class Page1 : AppCompatActivity() {
             viewModel.isReady.collectLatest { ready ->
                 if (ready) {
                     delay(3000) // show Page1 content for 3 seconds
-                    startActivity(Intent(this@Page1, Navbar::class.java))
+                    startActivity(Intent(this@Page1, Page2::class.java))
                     finish()
                 }
             }

@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -33,6 +34,27 @@ class Home : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val prefs = requireContext().getSharedPreferences("users_prefs", Context.MODE_PRIVATE)
+        val json = prefs.getString("users_list", null)
+
+        val userName = view.findViewById<TextView>(R.id.textView7)
+
+        if (json != null) {
+            val type = object : TypeToken<MutableList<UserDetails>>() {}.type
+            val users: MutableList<UserDetails> = Gson().fromJson(json, type)
+
+            if (users.isNotEmpty()) {
+                val currentUser = users.last()  // get the last registered user
+                userName.text = "Hi, ${currentUser.name}"
+            } else {
+                userName.text = "Hi, User"
+            }
+        } else {
+            userName.text = "Hi, User"
+        }
+
+
+        // for the pie chart
         val chart = view.findViewById<PieChart>(R.id.moodPieChart)
         val moods = MoodStorage.load(requireContext())
 
