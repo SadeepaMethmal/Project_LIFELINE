@@ -45,12 +45,12 @@ class Home : Fragment() {
 
             if (users.isNotEmpty()) {
                 val currentUser = users.last()  // get the last registered user
-                userName.text = "Hi, ${currentUser.name}"
+                userName.text = "Welcome, \n${currentUser.name}"
             } else {
-                userName.text = "Hi, User"
+                userName.text = "Welcome, \nUser"
             }
         } else {
-            userName.text = "Hi, User"
+            userName.text = "Welcome, \nUser"
         }
 
 
@@ -90,7 +90,7 @@ class Home : Fragment() {
             setEntryLabelTextSize(12f)
             setEntryLabelColor(android.graphics.Color.BLACK)
             setCenterTextSize(16f)
-            legend.isEnabled = true
+            legend.isEnabled = false
             legend.textSize = 15f
             legend.orientation = Legend.LegendOrientation.HORIZONTAL
             legend.form = Legend.LegendForm.CIRCLE
