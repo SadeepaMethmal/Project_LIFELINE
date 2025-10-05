@@ -43,7 +43,7 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
     // Notification permission launcher (Android 13+)
     private val notifPermLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { /* no-op */ }
+    ) {  }
 
     // --------------------------------------------------
     // LIFECYCLE
@@ -93,6 +93,7 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
         deleteAllBtn.setOnClickListener {
             clearAllReminders(emptyState)
         }
+
     }
 
     // --------------------------------------------------
@@ -187,6 +188,22 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
     // --------------------------------------------------
     private fun scheduleDailyReminder(context: Context, hour: Int, minute: Int, id: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        
+        // Check exact alarm permission for Android 12+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!alarmManager.canScheduleExactAlarms()) {
+                // Show notification about permission needed
+                NotificationUtils.ensureChannel(context)
+                NotificationUtils.show(
+                    context = context,
+                    title = "⚠️ Alarm Permission Needed",
+                    message = "Go to Settings > Apps > Lifeline > Special app access > Alarms & reminders and enable it.",
+                    notificationId = 9998
+                )
+                return
+            }
+        }
+
         val intent = Intent(context, ReminderReceiver::class.java).apply {
             putExtra("title", "Hydration Reminder")
             putExtra("message", "💧 Time to drink water!")
@@ -208,24 +225,101 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
             if (timeInMillis <= System.currentTimeMillis()) add(Calendar.DAY_OF_YEAR, 1)
         }
 
-        alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP,
-            cal.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
-            pendingIntent
+        try {
+            // Use setExactAndAllowWhileIdle for better reliability
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    cal.timeInMillis,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    cal.timeInMillis,
+                    pendingIntent
+                )
+            }
+            
+            // Schedule the next day's alarm
+            scheduleNextDayAlarm(context, hour, minute, id)
+            
+        } catch (e: SecurityException) {
+            NotificationUtils.ensureChannel(context)
+            NotificationUtils.show(
+                context = context,
+                title = "❌ Alarm Permission Denied",
+                message = "Cannot schedule alarms. Check app permissions.",
+                notificationId = 9997
+            )
+        }
+    }
+
+    private fun scheduleNextDayAlarm(context: Context, hour: Int, minute: Int, id: Int) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, ReminderReceiver::class.java).apply {
+            putExtra("title", "Hydration Reminder")
+            putExtra("message", "💧 Time to drink water!")
+            putExtra("id", id)
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            id + 1000, // Different ID for next day
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+
+        val cal = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            add(Calendar.DAY_OF_YEAR, 1) // Next day
+        }
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    cal.timeInMillis,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    cal.timeInMillis,
+                    pendingIntent
+                )
+            }
+        } catch (e: SecurityException) {
+            // Handle permission error silently for next day alarm
+        }
     }
 
     private fun cancelReminder(context: Context, id: Int) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        
+        // Cancel both current and next day alarms
         val intent = Intent(context, ReminderReceiver::class.java)
+        
+        // Cancel current day alarm
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             id,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(pendingIntent)
+        
+        // Cancel next day alarm
+        val nextDayPendingIntent = PendingIntent.getBroadcast(
+            context,
+            id + 1000,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        alarmManager.cancel(nextDayPendingIntent)
     }
 
     // --------------------------------------------------
@@ -243,4 +337,5 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
             }
         }
     }
+
 }
