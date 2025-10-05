@@ -16,7 +16,7 @@
 
         <activity
             android:name=".Navbar"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true" />
         <activity
             android:name=".Page5"

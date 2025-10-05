@@ -22,6 +22,7 @@ materialCalendarview = "1.4.3"
 materialVersion = "1.9.0"
 gridlayout = "1.1.0"
 mpandroidchart = "v3.1.0"
+mpandroidchartVersion = "3.1.0"
 ycharts = "2.1.0"
 
 [libraries]
@@ -46,6 +47,7 @@ material-calendarview = { module = "com.prolificinteractive:material-calendarvie
 material-v190 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 androidx-gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
+mpandroidchart-v310 = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchartVersion" }
 ycharts = { module = "co.yml:ycharts", version.ref = "ycharts" }
 
 [plugins]

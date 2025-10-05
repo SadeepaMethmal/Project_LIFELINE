@@ -22,7 +22,6 @@
             android:layout_height="wrap_content">
 
 
-
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="275dp"
@@ -31,7 +30,8 @@
                 android:src="@drawable/circle2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription,ImageContrastCheck" />
 
 
             <com.mikhaellopez.circularprogressbar.CircularProgressBar
@@ -56,11 +56,13 @@
                 android:id="@+id/imageView10"
                 android:layout_width="198dp"
                 android:layout_height="198dp"
+                android:contentDescription="TODO"
                 android:src="@drawable/progress_circle"
                 app:layout_constraintBottom_toBottomOf="@+id/progressBar2"
                 app:layout_constraintEnd_toEndOf="@+id/progressBar2"
                 app:layout_constraintStart_toStartOf="@+id/progressBar2"
-                app:layout_constraintTop_toTopOf="@+id/progressBar2" />
+                app:layout_constraintTop_toTopOf="@+id/progressBar2"
+                tools:ignore="ContentDescription,HardcodedText" />
 
 
             <TextView
@@ -136,7 +138,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView5"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText,TextContrastCheck" />
 
             <LinearLayout
                 android:id="@+id/constraintLayout"
@@ -164,12 +166,15 @@
                     android:textStyle="bold"
                     tools:ignore="HardcodedText,RtlSymmetry"/>
 
+
                 <LinearLayout
                     android:id="@+id/emptyStateLayout"
-                    android:layout_width="match_parent"
+                    android:layout_width="350dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="50dp"
-                    android:background="@drawable/all_rounded_box"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/dashed_line_border"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="20dp"
@@ -181,21 +186,20 @@
                         android:layout_height="80dp"
                         android:contentDescription="No habits icon"
                         android:src="@drawable/business"
-                        tools:ignore="HardcodedText"/>
+                        tools:ignore="HardcodedText,ImageContrastCheck" />
 
                     <TextView
                         android:id="@+id/emptyMessage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="No habits yet. Tap Create Habit to get started!"
+                        android:text="No habits yet. \nTap Create Habit to get started!"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="italic"
-                        tools:ignore="HardcodedText"/>
+                        tools:ignore="HardcodedText" />
                 </LinearLayout>
-
-
 
                 <LinearLayout
                     android:id="@+id/habitContainer"
@@ -219,7 +223,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/textView16"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck,ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/textView16"
@@ -235,7 +239,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/habitBackBtn"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText,TextContrastCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

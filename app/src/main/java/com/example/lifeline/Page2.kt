@@ -28,7 +28,7 @@ class Page2 : AppCompatActivity() {
             startActivity(intent, options.toBundle())
         }
 
-        /*btnSkip2.setOnClickListener {
+        btnSkip2.setOnClickListener {
             val intent = Intent(this, Page5::class.java)
             val options = ActivityOptions.makeCustomAnimation(
                 this,
@@ -36,6 +36,6 @@ class Page2 : AppCompatActivity() {
                 R.anim.slide_out_left
             )
             startActivity(intent, options.toBundle())
-        } */
+        }
     }
 }

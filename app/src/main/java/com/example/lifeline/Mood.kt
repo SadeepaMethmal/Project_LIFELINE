@@ -29,9 +29,9 @@ class Mood : Fragment() {
     ): View {
         _binding = FragmentMoodBinding.inflate(inflater, container, false) // inflate layout
 
-        binding.calendarViewBtn.setOnClickListener {
+        binding.historyBtn.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, MoodCalendar())
+                .replace(R.id.frame_layout, MoodHistory())
                 .addToBackStack(null)
                 .commit()
         }

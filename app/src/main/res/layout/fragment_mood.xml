@@ -46,7 +46,7 @@
                 android:textColor="@color/stone"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/calendarViewBtn"
+                app:layout_constraintEnd_toStartOf="@+id/historyBtn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView17"
                 tools:ignore="HardcodedText,TextContrastCheck" />
@@ -65,7 +65,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/moodRecyclerView"
-                    android:layout_width="match_parent"
+                    android:layout_width="371dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_box_with_stroke"
                     android:clipToPadding="false"
@@ -194,18 +194,18 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
-                android:id="@+id/calendarViewBtn"
+                android:id="@+id/historyBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="249dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
+                android:layout_marginBottom="17dp"
                 android:backgroundTint="@color/sky_blue"
-                android:text="Calendar View"
+                android:text="History"
                 android:textSize="12sp"
                 app:cornerRadius="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView14"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView17"
                 tools:ignore="HardcodedText" />
         </androidx.constraintlayout.widget.ConstraintLayout>

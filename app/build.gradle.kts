@@ -62,8 +62,7 @@ dependencies {
     implementation(libs.androidx.core.splashscreen) //for animated logo
     implementation(libs.androidx.lifecycle.viewmodel.ktx) //for viewModels
     implementation(libs.android.spinkit) //spin kit progress bar
-    implementation(libs.mpandroidchart)  //for pie chart
-    implementation(libs.mpandroidchart) //for customizable charts
+    implementation(libs.mpandroidchart.v310) //for customizable charts
 
 
 }

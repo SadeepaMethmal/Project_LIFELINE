@@ -18,6 +18,12 @@ class Page1 : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // for the PrefManager.kt
+        val prefManager = PrefManager(this)
+        //prefManager.clearAll()  // to clear the shared preference
+
+
         // Attach splash before super.onCreate()
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -41,7 +47,16 @@ class Page1 : AppCompatActivity() {
             viewModel.isReady.collectLatest { ready ->
                 if (ready) {
                     delay(3000) // show Page1 content for 3 seconds
-                    startActivity(Intent(this@Page1, Navbar::class.java))
+
+                    if (prefManager.isFirstTimeLaunch()) {
+                        //go to the onboarding page
+                        startActivity(Intent(this@Page1, Page2 ::class.java))
+                    } else {
+                        // Go to home page
+                        startActivity(Intent(this@Page1, Navbar::class.java))
+                    }
+
+
                     finish()
                 }
             }

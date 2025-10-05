@@ -15,8 +15,10 @@ class Page4 : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_page4)
 
+        val prefManager = PrefManager(this)
+        prefManager.setFirstTimeLaunch(false) //mark as completed
+
         val btnNext2: Button = findViewById(R.id.button5)
-        val btnSkip2: Button = findViewById(R.id.button6)
 
         btnNext2.setOnClickListener {
             val intent = Intent(this, Page5::class.java)
@@ -27,5 +29,7 @@ class Page4 : AppCompatActivity() {
             )
             startActivity(intent, options.toBundle())
         }
+
+
     }
 }
