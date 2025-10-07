@@ -110,8 +110,8 @@
 
         <ImageView
             android:id="@+id/editHabit"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView23"
             app:layout_constraintEnd_toEndOf="@+id/imageView23"
             app:layout_constraintStart_toStartOf="@+id/imageView23"

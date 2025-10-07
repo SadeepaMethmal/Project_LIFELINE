@@ -126,6 +126,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/all_rounded_box"
+        android:elevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8">
@@ -265,6 +266,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/all_rounded_box"
+        android:elevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView39">
@@ -282,22 +284,22 @@
 
         <ImageView
             android:id="@+id/imageView21"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:src="@drawable/notification"
+            android:src="@drawable/language"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView19"
             tools:ignore="ContentDescription,ImageContrastCheck" />
 
         <ImageView
             android:id="@+id/imageView24"
-            android:layout_width="30dp"
-            android:layout_height="25dp"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:src="@drawable/language"
+            android:src="@drawable/logout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView21"
             tools:ignore="ContentDescription,ImageContrastCheck" />
@@ -320,9 +322,9 @@
             android:id="@+id/textView43"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:text="Notifications"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="20dp"
+            android:text="Language"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -334,10 +336,10 @@
             android:id="@+id/textView45"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="24dp"
-            android:text="Language"
+            android:text="Log out"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -363,7 +365,7 @@
             android:id="@+id/imageView22"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="174dp"
+            android:layout_marginStart="193dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="24dp"
             android:src="@drawable/forward"
@@ -373,15 +375,13 @@
             tools:ignore="ContentDescription,ImageContrastCheck" />
 
         <ImageView
-            android:id="@+id/imageView25"
+            android:id="@+id/logoutBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="192dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="24dp"
             android:src="@drawable/forward"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView45"
             app:layout_constraintTop_toBottomOf="@+id/imageView22"
             tools:ignore="ContentDescription,ImageContrastCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,10 @@ class MoodHistory : Fragment() {
         binding.historyRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.historyRecycler.adapter = adapter
 
+        binding.moodBackBtn.setOnClickListener {
+            (requireActivity() as Navbar).navigateToFragment(Mood(), R.id.home)
+        }
+
         binding.button4.setOnClickListener {
             MoodStorage.clear(requireContext())
             refreshList()

@@ -10,9 +10,13 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
@@ -160,11 +164,41 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
     }
 
     private fun clearAllReminders(emptyState: View) {
-        reminders.clear()
-        adapter.notifyDataSetChanged()
-        saveReminders(reminders)
-        emptyState.visibility = View.VISIBLE
+        val context = emptyState.context
+        val inflater = LayoutInflater.from(context)
+        val dialogView = inflater.inflate(R.layout.custom_confirm_box3, null)
+
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(context)
+            .setView(dialogView)
+            .create()
+
+        val confirmButton = dialogView.findViewById<Button>(R.id.btnResetYes)
+        val cancelButton = dialogView.findViewById<Button>(R.id.btnResetNo)
+
+        cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        confirmButton.setOnClickListener {
+            //Clear reminders only after confirmation
+            reminders.clear()
+            adapter.notifyDataSetChanged()
+            saveReminders(reminders)
+            emptyState.visibility = View.VISIBLE
+
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+
+        val window = dialog.window
+        window?.setLayout(
+            (context.resources.displayMetrics.widthPixels * 0.85).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
+
 
     // --------------------------------------------------
     // SHARED PREFERENCES
@@ -196,7 +230,7 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
                 NotificationUtils.ensureChannel(context)
                 NotificationUtils.show(
                     context = context,
-                    title = "⚠️ Alarm Permission Needed",
+                    title = "Alarm Permission Needed",
                     message = "Go to Settings > Apps > Lifeline > Special app access > Alarms & reminders and enable it.",
                     notificationId = 9998
                 )
@@ -248,7 +282,7 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
             NotificationUtils.ensureChannel(context)
             NotificationUtils.show(
                 context = context,
-                title = "❌ Alarm Permission Denied",
+                title = "Alarm Permission Denied",
                 message = "Cannot schedule alarms. Check app permissions.",
                 notificationId = 9997
             )

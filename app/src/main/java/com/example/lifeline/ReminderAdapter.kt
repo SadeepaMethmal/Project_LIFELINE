@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+
 
 class ReminderAdapter(
     private val reminders: MutableList<Reminder>,
@@ -33,7 +35,34 @@ class ReminderAdapter(
         holder.daysText.text = reminder.days
 
         holder.deleteBtn.setOnClickListener {
-            onDelete(reminder, position)
+            val context = holder.itemView.context
+            val inflater = LayoutInflater.from(context)
+            val dialogView = inflater.inflate(R.layout.custom_confirm_box3, null)
+
+            val dialog = androidx.appcompat.app.AlertDialog.Builder(context)
+                .setView(dialogView)
+                .create()
+
+            val cancelButton = dialogView.findViewById<Button>(R.id.btnResetNo)
+            val confirmButton = dialogView.findViewById<Button>(R.id.btnResetYes)
+
+            cancelButton.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            confirmButton.setOnClickListener {
+                onDelete(reminder, position)
+                dialog.dismiss()
+            }
+
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.show()
+
+            val window = dialog.window
+            window?.setLayout(
+                (context.resources.displayMetrics.widthPixels * 0.8).toInt(),  // 80% of screen width
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
         }
     }
 

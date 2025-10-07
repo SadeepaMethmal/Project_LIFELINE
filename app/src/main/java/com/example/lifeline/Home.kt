@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.components.XAxis
 import android.graphics.Color
 import androidx.core.graphics.toColorInt
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
 class Home : Fragment() {
@@ -82,15 +83,30 @@ class Home : Fragment() {
             chart.apply {
                 this.data = data
                 description.isEnabled = false
+                description.textSize = 14f
                 legend.isEnabled = false
                 axisRight.isEnabled = false
                 axisLeft.axisMinimum = 0f
+
                 xAxis.apply {
                     position = XAxis.XAxisPosition.BOTTOM
                     granularity = 1f
                     setDrawGridLines(false)
                     valueFormatter = IndexAxisValueFormatter(labels)
+                    setDrawAxisLine(true)
+                    axisLineColor = Color.BLACK
+                    axisLineWidth = 1f
                 }
+
+                axisLeft.apply {
+                    granularity = 1f
+                    setDrawGridLines(true)
+                    setDrawAxisLine(true)
+                    axisLineColor = Color.BLACK
+                    axisLineWidth = 1f
+                    textColor = Color.BLACK
+                }
+
                 animateY(1000)
                 invalidate()
             }

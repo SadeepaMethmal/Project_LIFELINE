@@ -215,10 +215,18 @@ class Habit : Fragment() {
 
             Toast.makeText(requireContext(), "Habit deleted", Toast.LENGTH_SHORT).show()
             confirmDialog.dismiss()
+
+
         }
 
         btnNo.setOnClickListener { confirmDialog.dismiss() }
         confirmDialog.show()
+
+        val window = confirmDialog.window
+        window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.8).toInt(),  // 80% of screen width
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     // --------------------------------------------------
@@ -242,6 +250,13 @@ class Habit : Fragment() {
 
         btnNo.setOnClickListener { confirmDialog.dismiss() }
         confirmDialog.show()
+
+        val window = confirmDialog.window
+        window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.8).toInt(),  // 80% of screen width
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
     }
 
     private fun resetHabits() {

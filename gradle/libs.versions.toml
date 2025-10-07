@@ -24,6 +24,8 @@ gridlayout = "1.1.0"
 mpandroidchart = "v3.1.0"
 mpandroidchartVersion = "3.1.0"
 ycharts = "2.1.0"
+material3 = "1.4.0"
+composeMaterial3 = "1.5.2"
 
 [libraries]
 android-gif-drawable = { module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "androidGifDrawable" }
@@ -49,6 +51,8 @@ androidx-gridlayout = { group = "androidx.gridlayout", name = "gridlayout", vers
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 mpandroidchart-v310 = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchartVersion" }
 ycharts = { module = "co.yml:ycharts", version.ref = "ycharts" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx-compose-material3 = { group = "androidx.wear.compose", name = "compose-material3", version.ref = "composeMaterial3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

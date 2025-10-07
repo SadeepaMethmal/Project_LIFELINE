@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:background="@color/sky_blue"
         android:src="@drawable/water"
-        android:tint="@color/stone"
+        app:backgroundTint="@color/sky_blue"
         app:layout_anchor="@+id/bottomAppbar"
         app:layout_anchorGravity="center"
         app:maxImageSize="30dp"

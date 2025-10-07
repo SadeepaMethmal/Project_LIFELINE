@@ -87,12 +87,6 @@ class Register : Fragment() {
         // If everything is valid
         Toast.makeText(requireContext(), "Account created successfully!", Toast.LENGTH_SHORT).show()
 
-        // Navigate to the login page
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.viewPager, Login())
-            .addToBackStack(null)
-            .commit()
-
     }
 
     private fun saveUser(user: UserDetails){
