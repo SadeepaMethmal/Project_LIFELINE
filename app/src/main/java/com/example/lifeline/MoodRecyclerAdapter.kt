@@ -2,36 +2,66 @@ package com.example.lifeline
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import pl.droidsonroids.gif.GifImageView
 
 class MoodRecyclerAdapter(
-        private val moods: List<Int>,
-        private val onMoodClick: (Int) -> Unit //callback when clicked
-    ) : RecyclerView.Adapter<MoodRecyclerAdapter.MoodViewHolder>() {
+    private val moods: List<Int>,
+    private val onMoodClick: (Int) -> Unit // Callback for mood click events
+) : RecyclerView.Adapter<MoodRecyclerAdapter.MoodViewHolder>() {
 
-    // ViewHolder for GifImageView
-    inner class MoodViewHolder(val gifView: GifImageView) : RecyclerView.ViewHolder(gifView){
-        fun bind(mood: Int){
-            gifView.setImageResource(mood)  //set gif
+    // -------------------------------------------------------------------------
+    // VIEW HOLDER CLASS
+    // -------------------------------------------------------------------------
+
+    /*
+     * ViewHolder representing a single mood GIF item.
+     * @param gifView The GIF image view for each mood item.
+     */
+    inner class MoodViewHolder(private val gifView: GifImageView) :
+        RecyclerView.ViewHolder(gifView) {
+
+        /*
+         * Binds a mood resource to the GIF view and sets up the click listener.
+         */
+        fun bind(mood: Int) {
+            gifView.setImageResource(mood) // Display the mood GIF
             gifView.setOnClickListener {
-                onMoodClick(mood) //call back to fragment
+                onMoodClick(mood) // Notify the fragment when a mood is selected
             }
         }
     }
 
+    // -------------------------------------------------------------------------
+    // ADAPTER METHODS
+    // -------------------------------------------------------------------------
+
+    /*
+     * Inflates the layout for a single mood item (item_mood.xml)
+     * and creates a new ViewHolder instance.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoodViewHolder {
-        // Inflate item_mood.xml
         val gifView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_mood, parent, false) as GifImageView
         return MoodViewHolder(gifView)
     }
 
+    /*
+     * Binds a mood GIF to the current position in the list.
+     *
+     * The position value is wrapped using modulus (%) to loop through the moods list,
+     * creating an infinite scrolling effect.
+     */
     override fun onBindViewHolder(holder: MoodViewHolder, position: Int) {
-        val mood = moods[position % moods.size] // pick GIF cyclically
-        holder.bind(mood) // set GIF resource
+        val mood = moods[position % moods.size] // Repeat moods cyclically
+        holder.bind(mood)
     }
 
-    override fun getItemCount(): Int = Int.MAX_VALUE // infinite scroll
+    /*
+     * Returns a very large number to simulate infinite scrolling.
+     *
+     * RecyclerView believes it has Int.MAX_VALUE items,
+     * but the adapter reuses only the defined moods in a loop.
+     */
+    override fun getItemCount(): Int = Int.MAX_VALUE
 }

@@ -11,24 +11,37 @@ import com.example.lifeline.databinding.FragmentMoodBinding
 
 class Mood : Fragment() {
 
-    private var _binding: FragmentMoodBinding? = null  // view binding reference
-    private val binding get() = _binding!!             // safe getter for binding
-    private var selectedEmojiResId: Int? = null
+    // -------------------------------------------------------------------------
+    // VARIABLES
+    // -------------------------------------------------------------------------
 
-    // list of mood emojis
+    private var _binding: FragmentMoodBinding? = null
+    private val binding get() = _binding!! // Safe access to binding
+
+    private var selectedEmojiResId: Int? = null // Currently selected mood icon
+
+    // List of mood drawable resources
     private val moodList = listOf(
         R.drawable.happy,
         R.drawable.sad,
         R.drawable.love,
-        R.drawable.angry
+        R.drawable.angry,
+
     )
 
+    // -------------------------------------------------------------------------
+    // LIFECYCLE METHODS
+    // -------------------------------------------------------------------------
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMoodBinding.inflate(inflater, container, false) // inflate layout
+        // Inflate layout using ViewBinding
+        _binding = FragmentMoodBinding.inflate(inflater, container, false)
 
+        // Navigate to Mood History when "History" button is clicked
         binding.historyBtn.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, MoodHistory())
@@ -36,26 +49,8 @@ class Mood : Fragment() {
                 .commit()
         }
 
-        binding.button3.setOnClickListener {
-            val emoji = selectedEmojiResId ?: return@setOnClickListener
-            val desc = binding.moodDesc.text?.toString()?.trim().orEmpty()
-            val moodName = when (emoji) {
-                R.drawable.happy -> "Happy"
-                R.drawable.sad -> "Sad"
-                R.drawable.love -> "Love"
-                R.drawable.angry -> "Angry"
-                else -> "Mood"
-            }
-            val entry = MoodItem(
-                emojiResId = emoji,
-                name = moodName,
-                description = desc
-            )
-
-            MoodStorage.add(requireContext(), entry)
-            binding.moodDesc.setText("")
-            Toast.makeText(requireContext(), "Mood saved", Toast.LENGTH_SHORT).show()
-        }
+        // Handle "Save Mood" button click
+        binding.button3.setOnClickListener { handleSaveMood() }
 
         return binding.root
     }
@@ -63,21 +58,67 @@ class Mood : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = MoodRecyclerAdapter(moodList){ moodResId ->  // set adapter for RecyclerView
+        // ---------------------------------------------------------------------
+        // MOOD RECYCLER VIEW SETUP
+        // ---------------------------------------------------------------------
+
+        val adapter = MoodRecyclerAdapter(moodList) { moodResId ->
+            // When a mood is clicked, show it in the preview and store the selection
             selectedEmojiResId = moodResId
-            binding.imageView17.setImageResource(moodResId) // When a mood is clicked, show it in imageView17
+            binding.imageView17.setImageResource(moodResId)
         }
-        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false) // horizontal list
 
-        binding.moodRecyclerView.layoutManager = layoutManager // attach layout manager
-        binding.moodRecyclerView.adapter = adapter             // attach adapter
+        // Set up horizontal scrolling list of moods
+        val layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
 
-        // start at the middle for infinite scroll effect
+        binding.moodRecyclerView.layoutManager = layoutManager
+        binding.moodRecyclerView.adapter = adapter
+
+        // Start at the middle to create the illusion of infinite scrolling
         binding.moodRecyclerView.scrollToPosition(Int.MAX_VALUE / 2)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // clear binding to avoid memory leaks
+        _binding = null // Clear binding reference to prevent memory leaks
+    }
+
+    // -------------------------------------------------------------------------
+    // HELPER METHODS
+    // -------------------------------------------------------------------------
+
+    /*
+     * Handles saving a selected mood with an optional description.
+     */
+    private fun handleSaveMood() {
+        val emoji = selectedEmojiResId ?: return // Exit if no mood is selected
+        val desc = binding.moodDesc.text?.toString()?.trim().orEmpty()
+
+        // Determine mood name from emoji resource
+        val moodName = when (emoji) {
+            R.drawable.happy -> "Happy"
+            R.drawable.sad -> "Sad"
+            R.drawable.love -> "Love"
+            R.drawable.angry -> "Angry"
+            else -> "Mood"
+        }
+
+        // Create mood entry
+        val entry = MoodItem(
+            emojiResId = emoji,
+            name = moodName,
+            description = desc
+        )
+
+        // Save to local storage
+        MoodStorage.add(requireContext(), entry)
+
+        // Reset input and confirm save
+        binding.moodDesc.setText("")
+        Toast.makeText(requireContext(), "Mood saved", Toast.LENGTH_SHORT).show()
     }
 }

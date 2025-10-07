@@ -17,11 +17,16 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 
+/*
+ * Fragment responsible for managing user habits.
+ * Provides functionality to create, edit, delete, reset, and track habit completion progress.
+ */
 class Habit : Fragment() {
 
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
     // VARIABLES
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
+
     private lateinit var progressBar: CircularProgressBar
     private var _binding: FragmentHabitBinding? = null
     private val binding get() = _binding!!
@@ -30,11 +35,13 @@ class Habit : Fragment() {
     private val prefs by lazy {
         requireContext().getSharedPreferences("habits_prefs", Context.MODE_PRIVATE)
     }
+
     private var habits: MutableList<HabitItem> = mutableListOf()
 
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
     // LIFECYCLE METHODS
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,15 +56,11 @@ class Habit : Fragment() {
         progressBar = binding.progressBar2
         loadHabits()
 
-        // Create new habit
+        // Button listeners
         binding.habitBtn.setOnClickListener { showCreateHabitDialog() }
-
-        // Navigate back to home
         binding.habitBackBtn.setOnClickListener {
             (requireActivity() as Navbar).navigateToFragment(Home(), R.id.home)
         }
-
-        // Reset all habits
         binding.resetBtn.setOnClickListener { showResetConfirmDialog() }
     }
 
@@ -66,9 +69,13 @@ class Habit : Fragment() {
         _binding = null
     }
 
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
     // CREATE HABIT DIALOG
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
+
+    /*
+     * Displays a bottom sheet dialog allowing the user to create a new habit.
+     */
     private fun showCreateHabitDialog() {
         val dialogView = layoutInflater.inflate(R.layout.create_habit, null)
         val etName = dialogView.findViewById<EditText>(R.id.textInputLayoutHabit)
@@ -100,36 +107,30 @@ class Habit : Fragment() {
         dialog.show()
     }
 
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
     // EDIT HABIT DIALOG
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
+
+    /*
+     * Displays a bottom sheet dialog to edit an existing habit.
+     */
     @SuppressLint("SetTextI18n")
-    private fun showEditHabitDialog(
-        habit: HabitItem,
-        nameText: TextView,
-        descText: TextView
-    ) {
-        // Inflate the new edit_habit layout
+    private fun showEditHabitDialog(habit: HabitItem, nameText: TextView, descText: TextView) {
         val dialogView = layoutInflater.inflate(R.layout.edit_habit, null)
 
-        // Get references to the input fields
         val etName = dialogView.findViewById<EditText>(R.id.textInputLayoutUpdateHabit)
         val etDesc = dialogView.findViewById<EditText>(R.id.textInputLayoutUpdateHabitDesc)
         val btnCancel = dialogView.findViewById<Button>(R.id.btnCancelEdit)
         val btnSave = dialogView.findViewById<Button>(R.id.btnSaveEdit)
 
-        // Pre-fill the existing habit data
         etName.setText(habit.name)
         etDesc.setText(habit.description)
 
-        // Initialize BottomSheetDialog
         val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
         dialog.setContentView(dialogView)
 
-        // Cancel button closes dialog
         btnCancel.setOnClickListener { dialog.dismiss() }
 
-        // Save (Update) button logic
         btnSave.setOnClickListener {
             val newName = etName.text.toString().trim()
             val newDesc = etDesc.text.toString().trim()
@@ -139,15 +140,13 @@ class Habit : Fragment() {
                 return@setOnClickListener
             }
 
-            // Update the habit object & UI
+            // Update habit object and UI
             habit.name = newName
             habit.description = newDesc
             nameText.text = newName
             descText.text = newDesc
 
-            // Persist changes
             saveHabits()
-
             Toast.makeText(requireContext(), "Habit updated", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
@@ -155,9 +154,13 @@ class Habit : Fragment() {
         dialog.show()
     }
 
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
     // ADD HABIT CARD TO LAYOUT
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
+
+    /*
+     * Dynamically adds a habit card view to the layout for the given habit item.
+     */
     private fun addHabitCard(habit: HabitItem) {
         binding.emptyStateLayout.visibility = View.GONE
 
@@ -189,9 +192,13 @@ class Habit : Fragment() {
         updateProgressBar()
     }
 
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
     // DELETE HABIT CONFIRMATION
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
+
+    /*
+     * Displays a confirmation dialog before deleting a habit.
+     */
     private fun showDeleteDialog(cardView: View, habit: HabitItem) {
         val confirmView = layoutInflater.inflate(R.layout.custom_confirm_box, null)
         val confirmDialog = AlertDialog.Builder(requireContext())
@@ -215,23 +222,24 @@ class Habit : Fragment() {
 
             Toast.makeText(requireContext(), "Habit deleted", Toast.LENGTH_SHORT).show()
             confirmDialog.dismiss()
-
-
         }
 
         btnNo.setOnClickListener { confirmDialog.dismiss() }
         confirmDialog.show()
 
-        val window = confirmDialog.window
-        window?.setLayout(
-            (resources.displayMetrics.widthPixels * 0.8).toInt(),  // 80% of screen width
+        confirmDialog.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.8).toInt(),
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
 
-    // --------------------------------------------------
-    // RESET HABITS
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
+    // RESET ALL HABITS
+    // -----------------------------------------------------------------------
+
+    /*
+     * Displays a confirmation dialog before resetting all habits.
+     */
     private fun showResetConfirmDialog() {
         val confirmView = layoutInflater.inflate(R.layout.custom_confirm_box2, null)
         val confirmDialog = AlertDialog.Builder(requireContext())
@@ -251,14 +259,15 @@ class Habit : Fragment() {
         btnNo.setOnClickListener { confirmDialog.dismiss() }
         confirmDialog.show()
 
-        val window = confirmDialog.window
-        window?.setLayout(
-            (resources.displayMetrics.widthPixels * 0.8).toInt(),  // 80% of screen width
+        confirmDialog.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.8).toInt(),
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-
     }
 
+    /*
+     * Clears all habits, resets the UI and progress bar.
+     */
     private fun resetHabits() {
         habits.clear()
         prefs.edit { putString("task_completion", "0/0") }
@@ -269,9 +278,13 @@ class Habit : Fragment() {
         Toast.makeText(requireContext(), "All habits have been reset", Toast.LENGTH_SHORT).show()
     }
 
-    // --------------------------------------------------
-    // PROGRESS BAR + STORAGE HELPERS
-    // --------------------------------------------------
+    // -----------------------------------------------------------------------
+    // PROGRESS BAR AND STORAGE HELPERS
+    // -----------------------------------------------------------------------
+
+    /*
+     * Updates the progress bar based on completed habits.
+     */
     private fun updateProgressBar() {
         if (habits.isEmpty()) {
             progressBar.setProgressWithAnimation(0f, 1000)
@@ -286,11 +299,17 @@ class Habit : Fragment() {
         prefs.edit { putString("task_completion", "$completed/${habits.size}") }
     }
 
+    /*
+     * Saves all habits to SharedPreferences as a JSON string.
+     */
     private fun saveHabits() {
         val json = gson.toJson(habits)
         prefs.edit { putString("habits_list", json) }
     }
 
+    /*
+     * Loads habits from SharedPreferences and displays them in the layout.
+     */
     private fun loadHabits() {
         val json = prefs.getString("habits_list", null) ?: return
         val type = object : TypeToken<MutableList<HabitItem>>() {}.type
