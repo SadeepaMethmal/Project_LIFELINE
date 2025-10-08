@@ -21,7 +21,7 @@ class Page1 : AppCompatActivity() {
 
         // for the PrefManager.kt
         val prefManager = PrefManager(this)
-        //prefManager.clearAll()  // to clear the shared preference
+        prefManager.clearAll()  // to clear the shared preference of onboarding screens
 
 
         // Attach splash before super.onCreate()

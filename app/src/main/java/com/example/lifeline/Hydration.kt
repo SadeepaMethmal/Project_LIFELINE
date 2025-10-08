@@ -16,8 +16,8 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
-import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
@@ -29,42 +29,42 @@ import java.util.*
 
 class Hydration : Fragment(R.layout.fragment_hydration) {
 
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
     // ANIMATIONS
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_open_anim) }
     private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_close_anim) }
     private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(requireContext(), R.anim.from_bottom_anim) }
     private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(requireContext(), R.anim.to_bottom_anim) }
     private var fabMenuOpen = false
 
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
     // VARIABLES
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
     private lateinit var adapter: ReminderAdapter
     private val reminders = mutableListOf<Reminder>()
 
-    // Notification permission launcher (Android 13+)
+    // Request notification permission (Android 13+)
     private val notifPermLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) {  }
+    ) { /* No result handling needed */ }
 
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
     // LIFECYCLE
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ensureNotificationPermission()
 
-        // UI Elements
-        val addReminderBtn: FloatingActionButton = view.findViewById(R.id.addReminderBtn)
+        // UI references
+        val addBtn: FloatingActionButton = view.findViewById(R.id.addReminderBtn)
         val deleteAllBtn: FloatingActionButton = view.findViewById(R.id.deleteAllBtn)
-        val editReminderBtn: FloatingActionButton = view.findViewById(R.id.editReminderBtn)
-        val recyclerView: RecyclerView = view.findViewById(R.id.reminderRecyclerView)
+        val mainFab: FloatingActionButton = view.findViewById(R.id.editReminderBtn)
+        val recycler: RecyclerView = view.findViewById(R.id.reminderRecyclerView)
         val emptyState: View = view.findViewById(R.id.emptyStateLayout)
 
-        // Recycler setup
+        // RecyclerView setup
         adapter = ReminderAdapter(reminders) { reminder, position ->
             val alarmId = reminder.hour * 100 + reminder.minute
             cancelReminder(requireContext(), alarmId)
@@ -73,8 +73,8 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
             emptyState.visibility = if (reminders.isEmpty()) View.VISIBLE else View.GONE
         }
 
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
+        recycler.layoutManager = LinearLayoutManager(requireContext())
+        recycler.adapter = adapter
 
         // Load saved reminders
         loadReminders()?.let {
@@ -82,27 +82,18 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
             adapter.notifyDataSetChanged()
         }
 
-        // Handle empty state
         emptyState.visibility = if (reminders.isEmpty()) View.VISIBLE else View.GONE
 
-        // FAB actions
-        editReminderBtn.setOnClickListener {
-            toggleFabMenu(addReminderBtn, deleteAllBtn, editReminderBtn)
-        }
-
-        addReminderBtn.setOnClickListener {
-            showTimePicker(emptyState)
-        }
-
-        deleteAllBtn.setOnClickListener {
-            clearAllReminders(emptyState)
-        }
-
+        // FAB click listeners
+        mainFab.setOnClickListener { toggleFabMenu(addBtn, deleteAllBtn, mainFab) }
+        addBtn.setOnClickListener { showTimePicker(emptyState) }
+        deleteAllBtn.setOnClickListener { clearAllReminders(emptyState) }
     }
 
-    // --------------------------------------------------
-    // FAB MENU BEHAVIOR
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
+    // FLOATING ACTION BUTTON MENU BEHAVIOR
+    // -------------------------------------------------------------------------
+    /* Expands or collapses the FAB menu with animation. */
     private fun toggleFabMenu(addBtn: View, deleteBtn: View, mainBtn: View) {
         setFabVisibility(fabMenuOpen, addBtn, deleteBtn)
         setFabAnimation(fabMenuOpen, addBtn, deleteBtn, mainBtn)
@@ -111,13 +102,8 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
     }
 
     private fun setFabVisibility(open: Boolean, addBtn: View, deleteBtn: View) {
-        if (!open) {
-            addBtn.visibility = View.VISIBLE
-            deleteBtn.visibility = View.VISIBLE
-        } else {
-            addBtn.visibility = View.INVISIBLE
-            deleteBtn.visibility = View.INVISIBLE
-        }
+        addBtn.visibility = if (!open) View.VISIBLE else View.INVISIBLE
+        deleteBtn.visibility = if (!open) View.VISIBLE else View.INVISIBLE
     }
 
     private fun setFabAnimation(open: Boolean, addBtn: View, deleteBtn: View, mainBtn: View) {
@@ -137,13 +123,15 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
         deleteBtn.isClickable = !open
     }
 
-    // --------------------------------------------------
-    // REMINDER HANDLING
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
+    // REMINDER CREATION / DELETION
+    // -------------------------------------------------------------------------
+
+    /* Displays a TimePicker dialog and schedules a reminder. */
     private fun showTimePicker(emptyState: View) {
-        val calendar = Calendar.getInstance()
-        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
-        val currentMinute = calendar.get(Calendar.MINUTE)
+        val cal = Calendar.getInstance()
+        val hour = cal.get(Calendar.HOUR_OF_DAY)
+        val minute = cal.get(Calendar.MINUTE)
 
         TimePickerDialog(
             requireContext(),
@@ -157,85 +145,74 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
                 val alarmId = selectedHour * 100 + selectedMinute
                 scheduleDailyReminder(requireContext(), selectedHour, selectedMinute, alarmId)
             },
-            currentHour,
-            currentMinute,
-            false
+            hour, minute, false
         ).show()
     }
 
+    /* Clears all reminders after confirmation dialog. */
     private fun clearAllReminders(emptyState: View) {
         val context = emptyState.context
-        val inflater = LayoutInflater.from(context)
-        val dialogView = inflater.inflate(R.layout.custom_confirm_box3, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.custom_confirm_box3, null)
+        val dialog = AlertDialog.Builder(context).setView(view).create()
 
-        val dialog = androidx.appcompat.app.AlertDialog.Builder(context)
-            .setView(dialogView)
-            .create()
+        val confirm = view.findViewById<Button>(R.id.btnResetYes)
+        val cancel = view.findViewById<Button>(R.id.btnResetNo)
 
-        val confirmButton = dialogView.findViewById<Button>(R.id.btnResetYes)
-        val cancelButton = dialogView.findViewById<Button>(R.id.btnResetNo)
+        cancel.setOnClickListener { dialog.dismiss() }
 
-        cancelButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        confirmButton.setOnClickListener {
-            //Clear reminders only after confirmation
+        confirm.setOnClickListener {
             reminders.clear()
             adapter.notifyDataSetChanged()
             saveReminders(reminders)
             emptyState.visibility = View.VISIBLE
-
             dialog.dismiss()
         }
 
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.show()
 
-        val window = dialog.window
-        window?.setLayout(
+        dialog.window?.setLayout(
             (context.resources.displayMetrics.widthPixels * 0.85).toInt(),
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
     }
 
-
-    // --------------------------------------------------
-    // SHARED PREFERENCES
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
+    // SHARED PREFERENCES (DATA PERSISTENCE)
+    // -------------------------------------------------------------------------
+    /* Saves all reminders as a JSON array in SharedPreferences. */
     private fun saveReminders(reminders: List<Reminder>) {
         val prefs = requireContext().getSharedPreferences("hydration_prefs", Context.MODE_PRIVATE)
         val json = Gson().toJson(reminders)
         prefs.edit { putString("reminders", json) }
     }
 
+    /* Loads saved reminders from SharedPreferences. */
     private fun loadReminders(): List<Reminder>? {
         val prefs = requireContext().getSharedPreferences("hydration_prefs", Context.MODE_PRIVATE)
         val json = prefs.getString("reminders", null)
-        return json?.let {
-            Gson().fromJson(it, Array<Reminder>::class.java).toList()
-        }
+        return json?.let { Gson().fromJson(it, Array<Reminder>::class.java).toList() }
     }
 
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
     // ALARM MANAGEMENT
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
+    /*
+     * Schedules an exact daily alarm for a specific time using AlarmManager.
+     * Also schedules a next-day duplicate to keep it recurring.
+     */
     private fun scheduleDailyReminder(context: Context, hour: Int, minute: Int, id: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        
-        // Check exact alarm permission for Android 12+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (!alarmManager.canScheduleExactAlarms()) {
-                // Show notification about permission needed
-                NotificationUtils.ensureChannel(context)
-                NotificationUtils.show(
-                    context = context,
-                    title = "Alarm Permission Needed",
-                    message = "Go to Settings > Apps > Lifeline > Special app access > Alarms & reminders and enable it.",
-                    notificationId = 9998
-                )
-                return
-            }
+
+        // Android 12+ exact alarm permission check
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+            NotificationUtils.ensureChannel(context)
+            NotificationUtils.show(
+                context, "Alarm Permission Needed",
+                "Enable 'Alarms & reminders' in Settings > Apps > Lifeline.",
+                9998
+            )
+            return
         }
 
         val intent = Intent(context, ReminderReceiver::class.java).apply {
@@ -245,9 +222,7 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
         }
 
         val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            id,
-            intent,
+            context, id, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
@@ -260,35 +235,20 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
         }
 
         try {
-            // Use setExactAndAllowWhileIdle for better reliability
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    cal.timeInMillis,
-                    pendingIntent
-                )
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pendingIntent)
             } else {
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    cal.timeInMillis,
-                    pendingIntent
-                )
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pendingIntent)
             }
-            
-            // Schedule the next day's alarm
             scheduleNextDayAlarm(context, hour, minute, id)
-            
         } catch (e: SecurityException) {
             NotificationUtils.ensureChannel(context)
-            NotificationUtils.show(
-                context = context,
-                title = "Alarm Permission Denied",
-                message = "Cannot schedule alarms. Check app permissions.",
-                notificationId = 9997
-            )
+            NotificationUtils.show(context, "Alarm Permission Denied",
+                "Cannot schedule alarms. Check app permissions.", 9997)
         }
     }
 
+    /* Schedules a backup alarm for the next day to ensure recurrence. */
     private fun scheduleNextDayAlarm(context: Context, hour: Int, minute: Int, id: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, ReminderReceiver::class.java).apply {
@@ -298,9 +258,7 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
         }
 
         val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            id + 1000, // Different ID for next day
-            intent,
+            context, id + 1000, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
@@ -309,56 +267,40 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
             set(Calendar.MINUTE, minute)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-            add(Calendar.DAY_OF_YEAR, 1) // Next day
+            add(Calendar.DAY_OF_YEAR, 1)
         }
 
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    cal.timeInMillis,
-                    pendingIntent
-                )
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pendingIntent)
             } else {
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    cal.timeInMillis,
-                    pendingIntent
-                )
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pendingIntent)
             }
-        } catch (e: SecurityException) {
-            // Handle permission error silently for next day alarm
-        }
+        } catch (_: SecurityException) { /* Silent fail for next-day alarm */ }
     }
 
+    /* Cancels a scheduled reminder (current + next day). */
     private fun cancelReminder(context: Context, id: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        
-        // Cancel both current and next day alarms
         val intent = Intent(context, ReminderReceiver::class.java)
-        
-        // Cancel current day alarm
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            id,
-            intent,
+
+        val todayPI = PendingIntent.getBroadcast(
+            context, id, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        alarmManager.cancel(pendingIntent)
-        
-        // Cancel next day alarm
-        val nextDayPendingIntent = PendingIntent.getBroadcast(
-            context,
-            id + 1000,
-            intent,
+        val nextDayPI = PendingIntent.getBroadcast(
+            context, id + 1000, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        alarmManager.cancel(nextDayPendingIntent)
+
+        alarmManager.cancel(todayPI)
+        alarmManager.cancel(nextDayPI)
     }
 
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
     // PERMISSIONS
-    // --------------------------------------------------
+    // -------------------------------------------------------------------------
+    /*Requests POST_NOTIFICATIONS permission on Android 13+. */
     private fun ensureNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val granted = ContextCompat.checkSelfPermission(
@@ -366,10 +308,7 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
                 Manifest.permission.POST_NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
 
-            if (!granted) {
-                notifPermLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
+            if (!granted) notifPermLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
     }
-
 }
