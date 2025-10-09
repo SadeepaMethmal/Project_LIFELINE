@@ -217,7 +217,7 @@ class Hydration : Fragment(R.layout.fragment_hydration) {
 
         val intent = Intent(context, ReminderReceiver::class.java).apply {
             putExtra("title", "Hydration Reminder")
-            putExtra("message", "💧 Time to drink water!")
+            putExtra("message", "💧 It's time to drink water!")
             putExtra("id", id)
         }
 

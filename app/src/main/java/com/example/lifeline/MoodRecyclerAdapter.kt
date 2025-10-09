@@ -16,7 +16,6 @@ class MoodRecyclerAdapter(
 
     /*
      * ViewHolder representing a single mood GIF item.
-     * @param gifView The GIF image view for each mood item.
      */
     inner class MoodViewHolder(private val gifView: GifImageView) :
         RecyclerView.ViewHolder(gifView) {
@@ -48,7 +47,6 @@ class MoodRecyclerAdapter(
 
     /*
      * Binds a mood GIF to the current position in the list.
-     *
      * The position value is wrapped using modulus (%) to loop through the moods list,
      * creating an infinite scrolling effect.
      */
@@ -59,9 +57,6 @@ class MoodRecyclerAdapter(
 
     /*
      * Returns a very large number to simulate infinite scrolling.
-     *
-     * RecyclerView believes it has Int.MAX_VALUE items,
-     * but the adapter reuses only the defined moods in a loop.
      */
     override fun getItemCount(): Int = Int.MAX_VALUE
 }

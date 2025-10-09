@@ -18,7 +18,7 @@ class ReminderReceiver : BroadcastReceiver() {
 
         // Retrieve reminder details from intent extras
         val title = intent.getStringExtra("title") ?: "Hydration Reminder"
-        val message = intent.getStringExtra("message") ?: "💧 Time to drink water!"
+        val message = intent.getStringExtra("message") ?: "💧 It's time to drink water!"
         val id = intent.getIntExtra("id", System.currentTimeMillis().toInt())
 
         // Display the reminder notification
