@@ -29,11 +29,11 @@ Below are some screenshots of the Lifeline Android App in action:
 
 | Login Screen | Home Dashboard | Mood Tracking |
 |:------------:|:-------------:|:-------------:|
-| ![Login](screenshots/login.png) | ![Home](screenshots/home.png) | ![Mood](screenshots/moods.png) |
+| <img src="screenshots/login.png" width="250"/> | <img src="screenshots/home.png" width="250"/> | <img src="screenshots/moods.png" width="250"/> |
 
 | Habit Management | Hydration Reminders | Profile |
 |:----------------:|:------------------:|:-------:|
-| ![Habit](screenshots/habits.png) | ![Hydration](screenshots/hydration.png) | ![Profile](screenshots/profile.png) |
+| <img src="screenshots/habits.png" width="250"/> | <img src="screenshots/hydration.png" width="250"/> | <img src="screenshots/profile.png" width="250"/> |
 
 <!-- Add your actual screenshot files to the screenshots/ folder with the above names -->
 
