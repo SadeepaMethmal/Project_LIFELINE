@@ -23,6 +23,20 @@ Lifeline is a personal wellness Android application that helps users track their
   - Logout and reset onboarding
 - **Navigation Bar:** Quickly switch between Home, Habit, Mood, Hydration, and Profile screens
 
+## Screenshots
+
+Below are some screenshots of the Lifeline Android App in action:
+
+| Login Screen | Home Dashboard | Mood Tracking |
+|:------------:|:-------------:|:-------------:|
+| ![Login](screenshots/login.png) | ![Home](screenshots/home.png) | ![Mood](screenshots/moods.png) |
+
+| Habit Management | Hydration Reminders | Profile |
+|:----------------:|:------------------:|:-------:|
+| ![Habit](screenshots/habits.png) | ![Hydration](screenshots/hydration.png) | ![Profile](screenshots/profile.png) |
+
+<!-- Add your actual screenshot files to the screenshots/ folder with the above names -->
+
 ## Project Structure
 
 - `app/` - Main Android application module
@@ -76,5 +90,3 @@ You can also build the project using the Gradle wrapper:
 ```sh
 ./gradlew assembleDebug
 ```
-
-
