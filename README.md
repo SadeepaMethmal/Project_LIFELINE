@@ -2,6 +2,20 @@
 
 Lifeline is a personal wellness Android application that helps users track their mood, manage habits, and stay hydrated with reminders. The app features onboarding, user authentication, a dashboard, and persistent data storage using SharedPreferences.
 
+---
+
+## Table of Contents
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Project Structure](#project-structure)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+- [Contributing](#contributing)
+- [Contact](#contact)
+- [License](#license)
+
+---
+
 ## Features
 
 - **Onboarding Flow:** Multi-page introduction (Page1–Page5) guides new users through the app’s features.
@@ -70,6 +84,14 @@ Below are some screenshots of the Lifeline Android App in action:
 - `gradle/` - Gradle wrapper and version catalog
 - `gradlew`, `gradlew.bat` - Gradle wrapper scripts
 
+## Technologies Used
+- Kotlin
+- Android SDK (Jetpack, ViewModel, LiveData, etc.)
+- Gradle Kotlin DSL
+- SharedPreferences
+- Material Components
+- AlarmManager & Notifications
+
 ## Getting Started
 
 ### Prerequisites
@@ -90,3 +112,15 @@ You can also build the project using the Gradle wrapper:
 ```sh
 ./gradlew assembleDebug
 ```
+
+## Contributing
+
+This is a solo project and external contributions are not being accepted at this time.
+
+## Contact
+
+For questions or suggestions, please contact the project owner directly.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
